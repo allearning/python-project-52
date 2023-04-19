@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "hexlet-code"
+version = "0.1.0"
+description = "Task manager app using Django"
+authors = ["AlexeyLearning <alexeylearning@gmail.com>"]
+readme = "README.md"
+packages = [{include = "hexlet_code"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+django = "^4.2"
+django-extensions = "^3.2.1"
+python-dotenv = "^1.0.0"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.3.1"
+pytest-cov = "^4.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
