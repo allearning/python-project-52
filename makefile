@@ -26,3 +26,7 @@ shell:
 .PHONY: lint
 lint:
 	@poetry run flake8 task_manager
+
+.PHONY: start
+start:
+	@poetry run python manage.py runserver 0
