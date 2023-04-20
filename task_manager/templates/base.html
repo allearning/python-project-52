@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load i18n %}
+<head>
+    <title>{% block title %}{% translate "This is the default title." %}{% endblock %}</title>
+    <meta charset="utf-8">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+        <a class="navbar-brand" href="/">{% translate "This app name" %}</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarToggleExternalContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/">{% translate "This is users" %}</a>
+                </li>
+
+            </ul>
+            <ul class="nav nav-pills">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/login/">{% translate "This is Login" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/create/">{% translate "This is Register" %}</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+    <div class="container">
+        <div class="container my-5 pt-4 border-top">
+            <a target="_blank" href="https://ru.hexlet.io">Hexlet</a>
+        </div>
+</body>
+
+</html>

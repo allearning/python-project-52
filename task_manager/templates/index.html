@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "This is Index page title" %}{% endblock %}
+
+{% block content %}
+<div class="container wrapper flex-grow-1">
+
+
+
+    <h1 class="my-4">
+
+
+    </h1>
+
+    <h1 class="my-4"></h1>
+    <div class="card">
+        <div class="card-body p-5 bg-light">
+            <div class="display-4">{% translate "This is Welcome from Hexlet header" %}</div>
+            <p class="lead">{% translate "This is Hexlet description" %}</p>
+            <hr>
+            <a class="btn btn-primary btn-lg" href="https://ru.hexlet.io">{% translate "This is Know more button" %}</a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
