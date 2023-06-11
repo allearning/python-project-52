@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-24 20:35+0300\n"
+"POT-Creation-Date: 2023-04-27 23:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,10 +34,13 @@ msgid "This is Login"
 msgstr "Вход"
 
 #: task_manager/templates/base.html:31
+#: task_manager/templates/users/create.html:10
 msgid "This is Register"
 msgstr "Регистрация"
 
 #: task_manager/templates/index.html:4
+#: task_manager/templates/users/create.html:4
+#: task_manager/templates/users/index.html:4
 msgid "This is Index page title"
 msgstr "Менеджер задач Hexlet"
 
@@ -52,3 +55,31 @@ msgstr "Практические курсы по программировани�
 #: task_manager/templates/index.html:22
 msgid "This is Know more button"
 msgstr "Узнать больше"
+
+#: task_manager/templates/users/create.html:30
+msgid "Register"
+msgstr "Зарегистрировать"
+
+#: task_manager/templates/users/index.html:22
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: task_manager/templates/users/index.html:23
+msgid "Full Name"
+msgstr "Полное имя"
+
+#: task_manager/templates/users/index.html:24
+msgid "Date of Creation"
+msgstr "Дата создания"
+
+#: task_manager/templates/users/index.html:25
+msgid "Actions"
+msgstr "Действия"
+
+#: task_manager/templates/users/index.html:37
+msgid "Edit"
+msgstr "Изменить"
+
+#: task_manager/templates/users/index.html:38
+msgid "Delete"
+msgstr "Удалить"

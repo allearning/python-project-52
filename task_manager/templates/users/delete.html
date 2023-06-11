@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "This is Index page title" %}{% endblock %}
+
+{% block content %}
+<h1 class="my-4">
+        
+    {% translate "Delete user" %}
+    
+</h1>
+
+<p>{% translate "Are you shure, you want to delete" %}Вы уверены, что хотите удалить {{ user_name }}?</p>
+<form method="post">
+    {% csrf_token %}
+    <input class="btn btn-danger" type="submit" value="{% translate "Yes, delete" %}">
+</form>
+{% endblock %}
