@@ -34,7 +34,8 @@ DEBUG = bool(os.getenv('DEBUG'))
 ALLOWED_HOSTS = ['webserver']
 
 if os.getenv('ALLOWED_HOSTS'):
-    ALLOWED_HOSTS.extend([host for host in os.getenv('ALLOWED_HOSTS').split(',')])
+    ALLOWED_HOSTS.extend(
+        [host for host in os.getenv('ALLOWED_HOSTS').split(',')])
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -133,7 +134,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-LOCALE_PATHS = [os.path.join(BASE_DIR,"task_manager", "locale")]
+LOCALE_PATHS = [os.path.join(BASE_DIR, "task_manager", "locale")]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
