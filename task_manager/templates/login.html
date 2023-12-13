@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block title %}{% translate 'Hexlet Task Manager' %}{% endblock %}
+
+{% block content %}
+
+<div class="container wrapper flex-grow-1">
+
+
+  <h1 class="my-4">
+
+
+  </h1>
+
+  <h1 class="my-4">{% translate 'Enter' %}</h1>
+  <form action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+
+    {% bootstrap_form form %}
+    {% translate "Log in" as login_ %}
+    {% bootstrap_button button_type="submit" content=login_ %}
+  </form>
+
+
+</div>
+{% endblock %}
