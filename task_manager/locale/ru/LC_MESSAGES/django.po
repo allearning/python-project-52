@@ -21,10 +21,8 @@ msgstr ""
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: task_manager/templates/base.html:9
-#, fuzzy
-#| msgid "Hexlet Task Manager"
 msgid "Task Manager"
-msgstr "Менеджер задач Hexlet"
+msgstr "Менеджер задач"
 
 #: task_manager/templates/base.html:16
 #: task_manager/users/templates/users/index.html:18
