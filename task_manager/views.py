@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.views.generic import TemplateView
 from django.contrib.auth.views  import LoginView
 from django.urls import reverse_lazy
@@ -11,3 +10,10 @@ class IndexView(TemplateView):
 class MyLoginView(LoginView):
     template_name = 'login.html'
     next_page = reverse_lazy('index')
+
+class MyLoginView(LoginView):
+    template_name = 'login.html'
+    next_page = reverse_lazy('index')
+
+def logout_view(request):
+    logout(request)
