@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-13 22:37+0300\n"
+"POT-Creation-Date: 2023-12-14 22:38+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,25 +20,46 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: task_manager/templates/base.html:13 task_manager/templates/index.html:6
-#: task_manager/templates/login.html:6
-#: task_manager/users/templates/users/index.html:6
-msgid "Hexlet Task Manager"
+#: task_manager/templates/base.html:9
+#, fuzzy
+#| msgid "Hexlet Task Manager"
+msgid "Task Manager"
 msgstr "Менеджер задач Hexlet"
 
-#: task_manager/templates/base.html:20
+#: task_manager/templates/base.html:16
 #: task_manager/users/templates/users/index.html:18
 #: task_manager/users/views.py:12
 msgid "Users"
 msgstr "Пользователи"
 
-#: task_manager/templates/base.html:27 task_manager/templates/login.html:18
+#: task_manager/templates/base.html:23 task_manager/templates/login.html:18
 msgid "Enter"
 msgstr "Вход"
 
-#: task_manager/templates/base.html:30
+#: task_manager/templates/base.html:24
 msgid "Register"
 msgstr "Регистрация"
+
+#: task_manager/templates/base.html:29
+msgid "Statuses"
+msgstr "Статусы"
+
+#: task_manager/templates/base.html:30
+msgid "Labels"
+msgstr "Метки"
+
+#: task_manager/templates/base.html:31
+msgid "Tasks"
+msgstr "Задачи"
+
+#: task_manager/templates/base.html:36
+msgid "Log out"
+msgstr "Выйти"
+
+#: task_manager/templates/index.html:6 task_manager/templates/login.html:6
+#: task_manager/users/templates/users/index.html:6
+msgid "Hexlet Task Manager"
+msgstr "Менеджер задач Hexlet"
 
 #: task_manager/templates/index.html:21
 msgid "Hi from Hexlet!"
@@ -51,6 +72,10 @@ msgstr "Практические курсы по программировани�
 #: task_manager/templates/index.html:24
 msgid "Learn More"
 msgstr "Узнать больше"
+
+#: task_manager/templates/login.html:23
+msgid "Log in"
+msgstr "Войти"
 
 #: task_manager/users/templates/users/index.html:23
 msgid "User Name"
