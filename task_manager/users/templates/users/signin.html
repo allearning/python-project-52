@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block title %}{% translate 'Hexlet Task Manager' %}{% endblock %}
+{% block h1_title %}{% translate 'Registration' %}{% endblock %}
+{% block content %}
+    <form action="{% url 'sign_in' %}" method="post">
+        {% csrf_token %}
+
+        {% bootstrap_form form %}
+        {% translate "Sign in" as sign_in_ %}
+        {% bootstrap_button button_type="submit" content=sign_in_ %}
+    </form>
+
+{% endblock %}
