@@ -142,6 +142,8 @@ LOCALE_PATHS = [os.path.join(BASE_DIR, "task_manager", "locale")]
 
 STATIC_URL = '/static/'
 
+LOGIN_URL = '/login/'
+
 # Following settings only make sense on production and may break development environments.
 if not DEBUG:
     # Tell Django to copy statics to the `staticfiles` directory
