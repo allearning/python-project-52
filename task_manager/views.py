@@ -1,6 +1,5 @@
 from django.views.generic import TemplateView
-from django.contrib.auth.views  import LoginView
-from django.contrib.auth import logout
+from django.contrib.auth.views  import LoginView, LogoutView
 from django.urls import reverse_lazy
 
 
@@ -13,5 +12,5 @@ class MyLoginView(LoginView):
     next_page = reverse_lazy('index')
 
 
-def logout_view(request):
-    logout(request)
+class MyLogoutView(LogoutView):
+    next_page = reverse_lazy('index')

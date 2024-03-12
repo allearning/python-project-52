@@ -37,5 +37,16 @@ class UserUpdateView(UpdateView):
 
     form_class = UpdateUserForm
 
+    success_url = reverse_lazy('users')
+    #success_message = _('User is successfully registered')
+
+
+class UserDeleteView(DeleteView):
+    """
+    Delete user.
+    """
+    template_name = "users/remove.html"
+    model = User
+
     success_url = reverse_lazy('index')
     #success_message = _('User is successfully registered')
