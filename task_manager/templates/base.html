@@ -41,19 +41,17 @@
     </div>
   </nav>
   <div class="container wrapper flex-grow-1">
-    <h1 class="my-4">
-
-
-    </h1>
-
-    <h1 class="my-4">{% block h1_title %}{% endblock %}</h1>
     {% autoescape off %}{% bootstrap_messages %}{% endautoescape %}
-    {% endblock %}
+    <h1 class="my-4">
+      
+      <h1 class="my-4">{% block h1_title %}{% endblock %}</h1>
 
-    {% block bootstrap5_content %}
-    {% block content %}(no content){% endblock %}
-    {% endblock %}
-    {% block bootstrap5_after_content %}
+      {% endblock %}
+
+      {% block bootstrap5_content %}
+      {% block content %}(no content){% endblock %}
+      {% endblock %}
+      {% block bootstrap5_after_content %}
   </div>
   <footer>
     <div class="container my-5 pt-4 border-top">
