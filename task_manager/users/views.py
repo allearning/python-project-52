@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
@@ -20,7 +21,7 @@ class IndexUsersView(ListView):
     }
 
 
-class UserCreateView(CreateView):
+class UserCreateView(SuccessMessageMixin, CreateView):
     """
     Create new user.
     """
@@ -29,7 +30,7 @@ class UserCreateView(CreateView):
     form_class = CreateUserForm
 
     success_url = reverse_lazy('login')
-    # success_message = _('User is successfully registered')
+    success_message = _('User is successfully registered')
 
 
 class MyUserControlMixin:
