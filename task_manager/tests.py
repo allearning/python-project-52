@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 
 class TestPaths(TestCase):
 
-    USER = 'test'
-    PASSWORD = 'testpass'
+    USER = 'Al7777'
+    PASSWORD = '7dhff_ahs'
     def setUp(self):
         # Every test needs a client.
         self.client = Client()
@@ -12,16 +12,6 @@ class TestPaths(TestCase):
         user.save()
 
     def test_root(self):
-        paths = [
-            '/'
-            '/users/',
-            '/users/create/',
-            '/users/<int:pk>/update/',
-            '/users/<int:pk>/delete/',
-            '/login/',
-            '/logout/',
-        ]
-        
         response = self.client.get('/')
         self.assertEquals(response.status_code, 200)
 
@@ -48,3 +38,39 @@ class TestPaths(TestCase):
         self.assertContains(response, '<a class="nav-link" href="/labels/">')
         self.assertContains(response, '<a class="nav-link" href="/tasks/">')
         self.assertContains(response, '<form action="/logout/" method="post">')
+
+    def test_create_user(self):
+        new_user = {
+            "username": 'new_u_name',
+            "password1": '1ewcncJCo8a_8',
+            "password2": '1ewcncJCo8a_8',
+            "first_name": 'fn',
+            'last_name': 'sn'
+            }
+        response = self.client.post('/users/create/', 
+                                    new_user,
+                                     follow=True)
+        self.assertTemplateUsed(response, 'login.html')
+        self.assertIsNotNone(User.objects.filter(username=new_user['username']).first())
+        
+
+    def test_update_user(self):
+        base_user = {
+            "username": 'new_u_name2',
+            "password1": '1ewcncJCo8a_8',
+            "password2": '1ewcncJCo8a_8',
+            "first_name": 'fn',
+            'last_name': 'sn'
+            }
+        
+        new_user = base_user.copy()
+        new_user['last_name'] = 'new_ln'
+        user = User.objects.create_user(base_user['username'],
+                                        None, base_user['password1'],
+                                        first_name=base_user['first_name'],
+                                        last_name=base_user['last_name'])
+        user.save()
+        response = self.client.post(f'/users/{user.pk}/update/', new_user, follow=True)
+        user.refresh_from_db()
+        self.assertEqual(user.last_name, new_user['last_name'])
+        self.assertTemplateUsed(response, 'users/index.html')

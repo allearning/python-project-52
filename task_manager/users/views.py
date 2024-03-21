@@ -48,6 +48,7 @@ class MyUserControlMixin:
 
         if self.request.user.id != self.kwargs['pk']:
             messages.error(self.request, self.__class__.lincorrect_user_message)
+            print(kwargs)
             return redirect(self.__class__.wrong_user_url, self.request)
         
         return super().get(self, *args, **kwargs)    
@@ -66,7 +67,6 @@ class UserUpdateView(MyUserControlMixin, UpdateView):
     wrong_user_url = reverse_lazy('users')
 
     success_url = reverse_lazy('users')
-    # success_message = _('User is successfully registered')
 
 
 class UserDeleteView(MyUserControlMixin, DeleteView):
@@ -80,4 +80,3 @@ class UserDeleteView(MyUserControlMixin, DeleteView):
     wrong_user_url = reverse_lazy('users')
 
     success_url = reverse_lazy('index')
-    # success_message = _('User is successfully registered')
