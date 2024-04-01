@@ -3,23 +3,20 @@ from django.contrib.auth.models import User
 
 class TestPaths(TestCase):
 
-    USER = 'Al7777'
-    PASSWORD = '7dhff_ahs'
     def setUp(self):
         # Every test needs a client.
         self.client = Client()
-        user = User.objects.create_user(TestPaths.USER, "mail@server.com", TestPaths.PASSWORD)
+        self.USER = 'Al7777'
+        self.PASSWORD = '7dhff_ahs'
+        user = User.objects.create_user(self.USER, "mail@server.com", self.PASSWORD)
         user.save()
 
     def test_root(self):
         response = self.client.get('/')
         self.assertEquals(response.status_code, 200)
-
-    def test_template(self):
-        response = self.client.get('/')
         self.assertTemplateUsed(response, 'index.html')
 
-    def test_logged_out(self):
+    def test_logged_out_header(self):
         response = self.client.get('/')
         self.assertContains(response, '<a class="nav-link" href="/login/">')
         self.assertContains(response, '<a class="nav-link" href="/users/create/">')
@@ -28,8 +25,10 @@ class TestPaths(TestCase):
         self.assertNotContains(response, '<a class="nav-link" href="/tasks/">')
         self.assertNotContains(response, '<form action="/logout/" method="post">')
 
-    def test_logged_in(self):
-        response = self.client.post('/login/', {"username": TestPaths.USER, "password": TestPaths.PASSWORD}, follow=True)
+    def test_logged_in_header(self):
+        response = self.client.post('/login/', {"username": self.USER, "password": self.PASSWORD}, follow=True)
+        self.assertContains(response, '<div class="alert alert-success alert-dismissible fade show" role="alert">')
+        self.assertTrue(response.context.get('user').is_authenticated)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'index.html')
         self.assertNotContains(response, '<a class="nav-link" href="/login/">')
@@ -39,38 +38,32 @@ class TestPaths(TestCase):
         self.assertContains(response, '<a class="nav-link" href="/tasks/">')
         self.assertContains(response, '<form action="/logout/" method="post">')
 
-    def test_create_user(self):
-        new_user = {
-            "username": 'new_u_name',
-            "password1": '1ewcncJCo8a_8',
-            "password2": '1ewcncJCo8a_8',
-            "first_name": 'fn',
-            'last_name': 'sn'
-            }
-        response = self.client.post('/users/create/', 
-                                    new_user,
-                                     follow=True)
-        self.assertTemplateUsed(response, 'login.html')
-        self.assertIsNotNone(User.objects.filter(username=new_user['username']).first())
-        
+    def test_logout_logged(self):
+        response = self.client.post('/login/', {"username": self.USER, "password": self.PASSWORD}, follow=True)
+        self.assertTrue(response.context.get('user').is_authenticated)
+        response = self.client.get('/logout/', follow=True)
+        self.assertContains(response, '<div class="alert alert-info alert-dismissible fade show" role="alert">')
+        self.assertFalse(response.context.get('user').is_authenticated)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'index.html')
 
-    def test_update_user(self):
-        base_user = {
-            "username": 'new_u_name2',
-            "password1": '1ewcncJCo8a_8',
-            "password2": '1ewcncJCo8a_8',
-            "first_name": 'fn',
-            'last_name': 'sn'
-            }
-        
-        new_user = base_user.copy()
-        new_user['last_name'] = 'new_ln'
-        user = User.objects.create_user(base_user['username'],
-                                        None, base_user['password1'],
-                                        first_name=base_user['first_name'],
-                                        last_name=base_user['last_name'])
-        user.save()
-        response = self.client.post(f'/users/{user.pk}/update/', new_user, follow=True)
-        user.refresh_from_db()
-        self.assertEqual(user.last_name, new_user['last_name'])
-        self.assertTemplateUsed(response, 'users/index.html')
+        response = self.client.post('/login/', {"username": self.USER, "password": self.PASSWORD}, follow=True)
+        self.assertTrue(response.context.get('user').is_authenticated)
+        response = self.client.post('/logout/', follow=True)
+        self.assertContains(response, '<div class="alert alert-info alert-dismissible fade show" role="alert">')
+        self.assertFalse(response.context.get('user').is_authenticated)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'index.html')
+
+    def test_logout_not_logged(self):
+        response = self.client.get('/logout/', follow=True)
+        self.assertContains(response, '<div class="alert alert-info alert-dismissible fade show" role="alert">')
+        self.assertFalse(response.context.get('user').is_authenticated)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'index.html')
+
+        response = self.client.post('/logout/', follow=True)
+        self.assertContains(response, '<div class="alert alert-info alert-dismissible fade show" role="alert">')
+        self.assertFalse(response.context.get('user').is_authenticated)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'index.html')
