@@ -1,10 +1,10 @@
-from django.urls import reverse_lazy
 from django.contrib import messages
-from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from task_manager import settings
 from task_manager.users.forms import CreateUserForm, UpdateUserForm
@@ -25,7 +25,7 @@ class UserCreateView(SuccessMessageMixin, CreateView):
     """
     Create new user.
     """
-    template_name = "users/signin.html"
+    template_name = "users/signup.html"
 
     form_class = CreateUserForm
 
@@ -35,8 +35,8 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 
 class MyUserControlMixin:
 
-    login_url = settings.LOGIN_URL
-    wrong_user_url = login_url
+    login_url = reverse_lazy('login')
+    wrong_user_url = reverse_lazy('users')
 
     not_logged_message = _('You are not logged in! Please Log in.')
     lincorrect_user_message = _('You have no rights to edit another user')
@@ -47,11 +47,11 @@ class MyUserControlMixin:
             return redirect(self.__class__.login_url, self.request)
 
         if self.request.user.id != self.kwargs['pk']:
-            messages.error(self.request, self.__class__.lincorrect_user_message)
-            print(kwargs)
+            messages.error(
+                self.request, self.__class__.lincorrect_user_message)
             return redirect(self.__class__.wrong_user_url, self.request)
-        
-        return super().get(self, *args, **kwargs)    
+
+        return super().get(self, *args, **kwargs)
 
 
 class UserUpdateView(MyUserControlMixin, UpdateView):
@@ -67,9 +67,10 @@ class UserUpdateView(MyUserControlMixin, UpdateView):
     wrong_user_url = reverse_lazy('users')
 
     success_url = reverse_lazy('users')
+    success_message = _('User succesfully changed')
 
 
-class UserDeleteView(MyUserControlMixin, DeleteView):
+class UserDeleteView(MyUserControlMixin, SuccessMessageMixin, DeleteView):
     """
     Delete user.
     """
@@ -79,4 +80,5 @@ class UserDeleteView(MyUserControlMixin, DeleteView):
     login_url = reverse_lazy('login')
     wrong_user_url = reverse_lazy('users')
 
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('users')
+    success_message = _('User succesfully deleted')
