@@ -1,18 +1,17 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 
+from task_manager.users.views import LoginMessageMixin
 from task_manager.statuses.forms import CreateStatusForm, UpdateStatusForm
 from task_manager.statuses.models import Status
 
 
 # Create your views here.
-class IndexStatusesView(LoginRequiredMixin, ListView):
+class IndexStatusesView(LoginMessageMixin, ListView):
     template_name = "statuses/index.html"
     model = Status
     context_object_name = 'statuses'
@@ -23,7 +22,7 @@ class IndexStatusesView(LoginRequiredMixin, ListView):
 
 
 
-class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class StatusCreateView(LoginMessageMixin, SuccessMessageMixin, CreateView):
     """
     Create new status.
     """
@@ -36,7 +35,7 @@ class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     permission_denied_message = _('You are not logged in! Please Log in.')
 
 
-class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class StatusUpdateView(LoginMessageMixin, SuccessMessageMixin, UpdateView):
     """
     Update status.
     """
@@ -49,7 +48,7 @@ class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = _('Status succesfully changed')
     permission_denied_message = _('You are not logged in! Please Log in.')
 
-class StatusDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class StatusDeleteView(LoginMessageMixin, SuccessMessageMixin, DeleteView):
     """
     Delete status.
     """

@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -33,28 +34,29 @@ class UserCreateView(SuccessMessageMixin, CreateView):
     success_message = _('User is successfully registered')
 
 
-class MyUserControlMixin:
-
-    login_url = reverse_lazy('login')
-    wrong_user_url = reverse_lazy('users')
-
+class LoginMessageMixin(LoginRequiredMixin):
     not_logged_message = _('You are not logged in! Please Log in.')
-    lincorrect_user_message = _('You have no rights to edit another user')
 
-    def get(self, *args, **kwargs):
-        if not self.request.user.is_authenticated:
-            messages.error(self.request, self.__class__.not_logged_message)
-            return redirect(self.__class__.login_url, self.request)
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, self.__class__.not_logged_message)
+        return super().dispatch(request, *args, **kwargs)
+    
 
-        if self.request.user.id != self.kwargs['pk']:
+class MyUserControlMixin:
+    wrong_user_url = reverse_lazy('users')
+    wrong_user_message = _('You have no rights to edit another user')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.id != self.kwargs['pk']:
             messages.error(
-                self.request, self.__class__.lincorrect_user_message)
-            return redirect(self.__class__.wrong_user_url, self.request)
+                request, self.__class__.wrong_user_message)
+            return redirect(self.__class__.wrong_user_url, request)
 
-        return super().get(self, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 
-class UserUpdateView(MyUserControlMixin, UpdateView):
+class UserUpdateView(LoginMessageMixin, MyUserControlMixin, SuccessMessageMixin, UpdateView):
     """
     Update user.
     """
@@ -70,7 +72,7 @@ class UserUpdateView(MyUserControlMixin, UpdateView):
     success_message = _('User succesfully changed')
 
 
-class UserDeleteView(MyUserControlMixin, SuccessMessageMixin, DeleteView):
+class UserDeleteView(LoginMessageMixin, MyUserControlMixin, SuccessMessageMixin, DeleteView):
     """
     Delete user.
     """
