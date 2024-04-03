@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block title %}{% translate 'Hexlet Task Manager' %}{% endblock %}
+{% block h1_title %}{% translate 'Tasks' %}{% endblock %}
+{% block content %}
+<a href="{% url 'create_task' %}" class="btn btn-primary mb-3">{% translate 'Create Task' %}</a>
+<!--
+<table class="table table-stripped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>{% translate 'Name' %}</th>
+            <th>{% translate 'Date of Creation' %}</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if statuses %}
+        {% for status in statuses %}
+            <tr>
+                <td>{{ status.id }}</td>
+                <td>{{ status.name }}</td>
+                <td>{{ status.date_of_creation|date:"d.m.Y H:i" }}</td>
+                <td>
+                  <a href="{% url 'status_update' status.id%}">{% translate 'Update' %}</a>
+                  <br>
+                  <a href="{% url 'status_delete' status.id %}">{% translate 'Delete' %}</a>
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+    </tbody>
+</table>
+-->
+{% endblock %}
