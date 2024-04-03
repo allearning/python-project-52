@@ -73,7 +73,7 @@ class TestCRUDLogin(TestCase):
         response = self.client.get(f'/statuses/', follow=True)
         self.assertTemplateUsed(response, 'login.html')
 
-    def test_read_not_logged(self):
+    def test_read_logged(self):
         self.client.login(username=self.username, password=self.password)
         response = self.client.get(f'/statuses/', follow=True)
         self.assertTemplateUsed(response, 'statuses/index.html')
