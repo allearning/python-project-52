@@ -1,4 +1,7 @@
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import ProtectedError
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
@@ -17,7 +20,6 @@ class IndexStatusesView(LoginMessageMixin, ListView):
         'title': _('Statuses')
     }
     permission_denied_message = _('You are not logged in! Please Log in.')
-
 
 
 class StatusCreateView(LoginMessageMixin, SuccessMessageMixin, CreateView):
@@ -46,6 +48,7 @@ class StatusUpdateView(LoginMessageMixin, SuccessMessageMixin, UpdateView):
     success_message = _('Status succesfully changed')
     permission_denied_message = _('You are not logged in! Please Log in.')
 
+
 class StatusDeleteView(LoginMessageMixin, SuccessMessageMixin, DeleteView):
     """
     Delete status.
@@ -56,3 +59,11 @@ class StatusDeleteView(LoginMessageMixin, SuccessMessageMixin, DeleteView):
     success_url = reverse_lazy('statuses')
     success_message = _('Status succesfully deleted')
     permission_denied_message = _('You are not logged in! Please Log in.')
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return super().post(self, request, *args, **kwargs)
+        except ProtectedError:
+            messages.error(
+                request, _('Impossible to delete status because it is in use'))
+            return redirect(reverse_lazy('statuses'), request)
