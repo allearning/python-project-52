@@ -60,14 +60,23 @@ class TestCRUDLogin(TestCase):
         self.assertTemplateUsed(response, 'login.html')
         self.assertContains(response, '<div class="alert alert-danger alert-dismissible fade show" role="alert">')
 
-    def test_delete_logged(self):
+    def test_delete_logged_free(self):
         self.client.login(username=self.username, password=self.password)
-        status = Status.objects.all().first()
+        status = Status.objects.filter(name='Vacation').first()
         self.assertIsNotNone(status)
         response = self.client.post(f'/statuses/{status.pk}/delete/', follow=True)
         self.assertIsNone(Status.objects.filter(name=status.name).first())
         self.assertTemplateUsed(response, 'statuses/index.html')
         self.assertContains(response, '<div class="alert alert-success alert-dismissible fade show" role="alert">')
+
+    def test_delete_logged_in_use(self):
+        self.client.login(username=self.username, password=self.password)
+        status = Status.objects.filter(name='Option').first()
+        self.assertIsNotNone(status)
+        response = self.client.post(f'/statuses/{status.pk}/delete/', follow=True)
+        self.assertIsNotNone(Status.objects.filter(name=status.name).first())
+        self.assertTemplateUsed(response, 'statuses/index.html')
+        self.assertContains(response, '<div class="alert alert-danger alert-dismissible fade show" role="alert">')
 
     def test_read_not_logged(self):
         response = self.client.get(f'/statuses/', follow=True)
