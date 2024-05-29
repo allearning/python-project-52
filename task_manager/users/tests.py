@@ -10,6 +10,8 @@ class TestCRUD(TestCase):
         self.username = 'New_guy'
         self.password = 'H8d9sxy@SL3g8uX'
         self.other_user = 'Pali'
+        self.no_task_user = 'Freetasker'
+        self.no_task_user_pwd = '2NBTBuTw@9A9qg4'
     
     def test_delete_notlogged(self):
         user = User.objects.filter(username=self.username).first()
@@ -19,14 +21,27 @@ class TestCRUD(TestCase):
         self.assertTemplateUsed(response, 'login.html')
         self.assertContains(response, '<div class="alert alert-danger alert-dismissible fade show" role="alert">')
         
-    def test_delete_logged(self):
-        user = User.objects.filter(username=self.username).first()
+    def test_delete_logged_no_tasks(self):
+        user = User.objects.filter(username=self.no_task_user).first()
         self.assertIsNotNone(user)
-        self.client.login(username=self.username, password=self.password)
+        self.assertIsNone(user.authored_tasks.first())
+        self.assertIsNone(user.processing_tasks.first())
+        self.client.login(username=self.no_task_user, password=self.no_task_user_pwd)
         response = self.client.post(f'/users/{user.pk}/delete/', follow=True)
-        self.assertIsNone(User.objects.filter(username=self.username).first())
+        self.assertIsNone(User.objects.filter(username=self.no_task_user).first())
         self.assertTemplateUsed(response, 'users/index.html')
         self.assertContains(response, '<div class="alert alert-success alert-dismissible fade show" role="alert">')
+
+    def test_delete_logged_with_tasks(self):
+        user = User.objects.filter(username=self.username).first()
+        self.assertIsNotNone(user)
+        self.assertIsNotNone(user.authored_tasks.first())
+        self.assertIsNotNone(user.processing_tasks.first())
+        self.client.login(username=self.username, password=self.password)
+        response = self.client.post(f'/users/{user.pk}/delete/', follow=True)
+        self.assertIsNotNone(User.objects.filter(username=self.username).first())
+        self.assertTemplateUsed(response, 'users/index.html')
+        self.assertContains(response, '<div class="alert alert-danger alert-dismissible fade show" role="alert">')
 
     def test_delete_other_user(self):
         user = User.objects.filter(username=self.username).first()

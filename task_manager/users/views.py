@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+from django.db.models import ProtectedError
 
 from task_manager.users.forms import CreateUserForm, UpdateUserForm
 
@@ -45,9 +46,11 @@ class LoginMessageMixin(LoginRequiredMixin):
 class MyUserControlMixin:
     wrong_user_url = reverse_lazy('users')
     wrong_user_message = _('You have no rights to edit another user')
-
+    def is_user_correct(self, user):
+         return user.id == self.kwargs['pk']
+    
     def dispatch(self, request, *args, **kwargs):
-        if request.user.id != self.kwargs['pk']:
+        if not self.is_user_correct(request.user):
             messages.error(
                 request, self.__class__.wrong_user_message)
             return redirect(self.__class__.wrong_user_url, request)
@@ -83,3 +86,11 @@ class UserDeleteView(LoginMessageMixin, MyUserControlMixin, SuccessMessageMixin,
 
     success_url = reverse_lazy('users')
     success_message = _('User succesfully deleted')
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return super().post(self, request, *args, **kwargs)
+        except ProtectedError:
+            messages.error(
+            request, _('Impossible to delete user because it is in use'))
+            return redirect(reverse_lazy('users'), request)
