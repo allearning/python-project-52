@@ -27,7 +27,7 @@
 
       {% if user.is_authenticated %}
       <li class="nav-item"><a class="nav-link" href="{% url 'statuses' %}">{% translate "Statuses" %}</a></li>
-      <li class="nav-item"><a class="nav-link" href="{% url 'statuses' %}">{% translate "Labels" %}</a></li>
+      <li class="nav-item"><a class="nav-link" href="/labels/">{% translate "Labels" %}</a></li>
       <li class="nav-item"><a class="nav-link" href="{% url 'tasks' %}">{% translate "Tasks" %}</a></li>
       </ul>
       <ul class="navbar-nav">
@@ -43,8 +43,8 @@
   <div class="container wrapper flex-grow-1">
     {% autoescape off %}{% bootstrap_messages %}{% endautoescape %}
     <h1 class="my-4">
-      
-      <h1 class="my-4">{% block h1_title %}{% endblock %}</h1>
+
+      <h1 class="my-4">{% block h1_title %}{{ title }}{% endblock %}</h1>
 
       {% endblock %}
 

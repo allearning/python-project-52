@@ -4,7 +4,6 @@
 {% load i18n %}
 
 {% block title %}{% translate 'Hexlet Task Manager' %}{% endblock %}
-{% block h1_title %}{% translate 'Statuses' %}{% endblock %}
 {% block content %}
 <a href="{% url 'create_status' %}" class="btn btn-primary mb-3">{% translate 'Create Status' %}</a>
 <table class="table table-stripped">
