@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block title %}{% translate 'Hexlet Task Manager' %}{% endblock %}
+{% block h1_title %}{% translate 'Create Task' %}{% endblock %}
+{% block content %}
+    <form action="{% url 'create_task' %}" method="post">
+        {% csrf_token %}
+
+        {% bootstrap_form form %}
+        {% translate "Create" as create_ %}
+        {% bootstrap_button button_type="submit" content=create_ %}
+    </form>
+
+{% endblock %}

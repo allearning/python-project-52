@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block title %}{% translate 'Hexlet Task Manager' %}{% endblock %}
+{% block h1_title %}{% translate 'Change Task' %}{% endblock %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+
+        {% bootstrap_form form %}
+        {% translate "Change" as change_ %}
+        {% bootstrap_button button_type="submit" content=change_ %}
+    </form>
+
+{% endblock %}

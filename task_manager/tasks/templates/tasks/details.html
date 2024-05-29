@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block title %}{% translate 'Hexlet Task Manager' %}{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-header bg-secondary text-white">
+        <h2>{{ task.name }}</h2>
+    </div>
+    <div class="card-body bg-light">
+        <p>{{ task.description }}</p>
+        <hr>
+        <div class="container">
+            <div class="row p-1">
+                <div class="col">{% translate 'Author' %}</div>
+                <div class="col">{{ task.author }}</div>
+            </div>
+            <div class="row p-1">
+                <div class="col">{% translate 'Executor' %}</div>
+                <div class="col">{{ task.executor|default_if_none:"" }}</div>
+            </div>
+            <div class="row p-1">
+                <div class="col">{% translate 'Status' %}</div>
+                <div class="col">{{ task.status }}</div>
+            </div>
+            <div class="row p-1">
+                <div class="col">{% translate 'Date of Creation' %}</div>
+                <div class="col">{{ task.date_of_creation }}</div>
+            </div>
+
+            <div class="row p-1">
+                <div class="col">
+                    <h6>{% translate 'Tags' %}:</h6>
+                    <!--
+                    {% if task.tags %}
+                    <ul>
+                        {% for tag in task.tags %}
+                        <li>{{ tag.name}}</li>
+                        {% endfor %}
+                    </ul>
+
+                    {% endif %}
+                    -->
+                </div>
+            </div>
+            
+            <div class="row p-1">
+                <a href="{% url 'task_update' task.id %}">{% translate 'Update' %}</a>
+                <br>
+                <a href="{% url 'task_delete' task.id %}">{% translate 'Delete' %}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
